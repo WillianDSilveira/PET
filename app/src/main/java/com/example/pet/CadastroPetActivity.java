@@ -38,6 +38,7 @@ public class CadastroPetActivity extends AppCompatActivity {
         }
 
         Pet pet = new Pet();
+        pet.id = DadosCompartilhados.getNextId();
         pet.nome = conteudoNome;
         pet.idade = Integer.parseInt(conteudoIdade);
         DadosCompartilhados.lista.add(pet);
