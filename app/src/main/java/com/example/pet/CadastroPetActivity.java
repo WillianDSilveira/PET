@@ -9,9 +9,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CadastroPetActivity extends AppCompatActivity {
     ArrayList<Pet> listapet;// criei a variavel
+    RepositorioPet repositorioPet; // cria a variavel do Repositorio
+    RepositorioLOG repositorioLOG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +25,11 @@ public class CadastroPetActivity extends AppCompatActivity {
         listapet =
                 (ArrayList<Pet>) getIntent()
                 .getSerializableExtra("lista_pet");
+
         Log.i("pet", "Carregado Cadastro Pet com Sucesso");
+
+        repositorioPet = new RepositorioPet(this); // Intancia o Repositorio e referencia ao this
+        repositorioLOG = new RepositorioLOG(this);
     }
 
     public void cadastrar(View view) {
@@ -38,11 +45,19 @@ public class CadastroPetActivity extends AppCompatActivity {
         }
 
         Pet pet = new Pet();
-        pet.id = DadosCompartilhados.getNextId();
         pet.nome = conteudoNome;
         pet.idade = Integer.parseInt(conteudoIdade);
-        DadosCompartilhados.lista.add(pet);
+        repositorioPet.adicionarPet(pet);
         Toast.makeText(this, "Pet Cadastrado com Sucesso", Toast.LENGTH_SHORT).show();
+
+        // LOG
+
+        LOG log = new LOG();
+        log.data = new Date().toString();
+        log.operacao = "Teste";
+        log.nome = DadosCompartilhados.usuarioLogado;
+        repositorioLOG.adicionarLOG(log);
+
 
         // limpa a tela.
         nome.setText("");
