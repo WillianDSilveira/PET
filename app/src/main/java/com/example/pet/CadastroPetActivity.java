@@ -51,7 +51,6 @@ public class CadastroPetActivity extends AppCompatActivity {
         Toast.makeText(this, "Pet Cadastrado com Sucesso", Toast.LENGTH_SHORT).show();
 
         // LOG
-
         LOG log = new LOG();
         log.data = new Date().toString();
         log.operacao = "Teste";

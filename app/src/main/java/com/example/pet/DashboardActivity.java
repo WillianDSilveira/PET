@@ -2,17 +2,19 @@ package com.example.pet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity {
 
     ArrayList<Pet> listaPet = new ArrayList<Pet>();
-
+    RepositorioLOG repositorioLOG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,10 @@ public class DashboardActivity extends AppCompatActivity {
         String login = (String) getIntent().getSerializableExtra("login");
         Toast.makeText(this, "Bem Vindo: " + login, Toast.LENGTH_SHORT).show();
         setTitle("Dashboard");
+
+        repositorioLOG = new RepositorioLOG(this);
     }
+
 
     public void cadastroPet(View view) {
         // abre a Activity de cadastro
@@ -46,6 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void removerPet(View view) {
+
         // abre a Activity de remocao
         Bundle bundle = new Bundle();// Bundle=Mochila
         bundle.putSerializable("lista_pet", listaPet);
@@ -63,5 +69,20 @@ public class DashboardActivity extends AppCompatActivity {
                 AtualizarPetActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    public void listarLog(View view) {
+
+        // pegando a lista do banco
+        List<LOG> listaDB = repositorioLOG.listarLOG();
+        String[] dados = new  String[listaDB.size()];
+
+        // passando lista para o vetor.
+        for(int i=0; i < listaDB.size(); i++){
+            LOG log = listaDB.get(i);
+            dados[i] = log.data + " - " + log.operacao + " - " + log.nome;
+
+        }
+
     }
 }

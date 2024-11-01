@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="listarLog"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
@@ -47,6 +48,13 @@
             android:layout_height="wrap_content"
             android:onClick="atualizarPet"
             android:text="Atualizar Pet" />
+
+        <Button
+            android:id="@+id/listarLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="listarLog"
+            android:text="Listar Log" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
