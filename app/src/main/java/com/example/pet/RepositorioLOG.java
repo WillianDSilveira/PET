@@ -32,17 +32,26 @@ public class RepositorioLOG extends SQLiteOpenHelper {
         super.getWritableDatabase().execSQL(sql);
     }
 
-    public List<LOG> listarLOG(){
-        ArrayList<LOG> lista = new ArrayList<>();
-        String sql = "select * from LOG";
-        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
+
+    public List<LOG> listarLOG(String usuario){
+
+        ArrayList<LOG> lista = new ArrayList<LOG>();
+        StringBuilder sql = new StringBuilder("select * from log ");
+        if(usuario != null) {
+            sql.append(" where usuario = '");
+            sql.append(usuario);
+            sql.append("'");
+        }
+
+        Cursor cursor = getWritableDatabase()
+                .rawQuery(sql.toString(),null);
         cursor.moveToFirst();
         for(int i=0; i < cursor.getCount(); i++){
             LOG log = new LOG();
             log.id = cursor.getInt(0); // coluna 0
-            log.data = cursor.getString(1); // coluna 2
-            log.operacao = cursor.getString(2); // coluna 2
-            log.nome = cursor.getString(3); // coluna 1
+            log.data = cursor.getString(1); // coluna 1
+            log.operacao = cursor.getString(2);// coluna 2
+            log.nome = cursor.getString(3);// coluna 3
             lista.add(log);
             cursor.moveToNext();
         }

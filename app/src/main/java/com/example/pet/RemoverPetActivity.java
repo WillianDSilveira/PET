@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class RemoverPetActivity extends AppCompatActivity {
     ArrayList<Pet> listapet;
+    RepositorioPet repositorioPet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +32,18 @@ public class RemoverPetActivity extends AppCompatActivity {
         String idString = editText.getText().toString();
 
         // ***** estudar metodo EQUALS
-        try {// try esta testando se o valor é inteiro
+        try {
             Integer id = Integer.parseInt(idString);
-
-            boolean resultado = DadosCompartilhados.lista
-                    .removeIf(obj -> obj.id.equals(id));// Verifica se o objeto id pet é igual ao id digitado pelo usuario
-
-            if (resultado){
-                Toast.makeText(this, "Pet removido com sucesso", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(this, "Pet nao encontrado", Toast.LENGTH_SHORT).show();
+            Pet pet = repositorioPet.buscarPet(id);
+            if(pet == null){
+                Toast.makeText(this,"nâo encontrado id", // Verifica se o objeto id pet é igual ao id digitado pelo usuario
+                        Toast.LENGTH_LONG).show();
+                return;
             }
-
+            repositorioPet.removerPet(id);
+            Toast.makeText(this, "Pet removido com sucesso", Toast.LENGTH_SHORT).show();
+            //boolean resultado = DadosCompartilhados.lista
+            //        .removeIf(obj -> obj.id.equals(id));
 
         }catch (Exception e){
             Toast.makeText(this, "Digite somente numeros", Toast.LENGTH_SHORT).show();

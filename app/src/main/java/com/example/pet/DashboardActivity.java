@@ -72,17 +72,9 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void listarLog(View view) {
-
-        // pegando a lista do banco
-        List<LOG> listaDB = repositorioLOG.listarLOG();
-        String[] dados = new  String[listaDB.size()];
-
-        // passando lista para o vetor.
-        for(int i=0; i < listaDB.size(); i++){
-            LOG log = listaDB.get(i);
-            dados[i] = log.data + " - " + log.operacao + " - " + log.nome;
-
-        }
+        Intent intent = new Intent(this,
+                ListagemLogActivity.class);
+        startActivity(intent);
 
     }
 }

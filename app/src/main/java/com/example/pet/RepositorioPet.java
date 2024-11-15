@@ -13,6 +13,7 @@ import java.util.List;
 
 public class RepositorioPet extends SQLiteOpenHelper {
 
+
     public RepositorioPet(@Nullable Context context) {
         super(context, "pet", null, 1);
     }
@@ -46,6 +47,38 @@ public class RepositorioPet extends SQLiteOpenHelper {
         cursor.close();
         return lista;
     }
+
+    public Pet buscarPet(Integer id){
+        String sql = "select * from pet where id ="
+                + id;
+        Cursor cursor = getWritableDatabase()
+                .rawQuery(sql,null);
+        cursor.moveToFirst();
+        Pet pet = null;
+        for(int i=0; i < cursor.getCount(); i++){
+            pet = new Pet();
+            pet.id = cursor.getInt(0); // coluna 0
+            pet.nome = cursor.getString(1); // coluna 1
+            pet.idade = cursor.getInt(2);// coluna 2
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return pet;
+    }
+
+    public void removerPet(Integer id){
+        String sql = "delete from pet where id =" + id;
+        getWritableDatabase().execSQL(sql);
+        Log.i("pet", "SQL Delete pet: " + sql);
+    }
+
+    public void atualizarPet(Pet pet){
+        String sql = "update  pet set nome = '" +pet.nome+ "', idade=" + pet.idade + "where id = " + pet.id;
+        getWritableDatabase().execSQL(sql);
+        Log.i("pet", "SQL Update pet: " + sql);
+    }
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
